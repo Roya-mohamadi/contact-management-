@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import  messagebox
-import databas
-db=databas("e:/cantact/mysql.db")
+from databas import datbas
+db=datbas("e:/cantact/mysql.db")
 
 win=Tk()
 win.geometry("800x600")
@@ -9,10 +9,20 @@ win.title("MY CANTACT")
 win.configure(background="#856d8d")
 win.resizable(0,0)
 #_____________fun
+def delete():
+    datbas.delete(select[0])
+    clear()
+    populate()
+
+def populate():
+    lst_box.delete(0,END)
+    for row in datbas.fetch():
+        lst_box.insert(END,f"{row[0]}    {row[1]}    {row[2]}   {row[3]}  {row[4]}")
+        lst_box.insert(END,row)
 def exit():
     result=messagebox.askokcancel("ERORE","are you sure to exit?")
     if result=="yes":
-        databas.con.close()
+        datbas.con.close()
         win.destroy()
     return
 def clear():
@@ -22,27 +32,34 @@ def clear():
     ent_adres.delete(0,END)
     ent_srech.delete(0,END)
 
+def serech():
+    pass
+
 def insert():
-    if ent_fname=="" or ent_lname=="" or ent_phon=="" or ent_adres=="" or ent_srech=="":
+    if lbl_name=="" or lbl_lame=="" or lbl_phon=="" or lbl_adres=="" :
         messagebox.showerror("ERORE","fild are empty")
         return
-    databas.insert
+    datbas.insert(lbl_name.get(),lbl_lame.get(),lbl_phon.get(),lbl_adres.get())
+    clear()
+    populate()
 
 
+def update():
+    datbas.update(select[0],ent_fname.get(),ent_lname.get(),ent_phon.get(),ent_adres.get())
 
+def select():
 
-
-
-
-
-
-
-
-
-
-
-
-
+        global select
+        index=lst_box.curselection()
+        select=lst_box.get(index)
+        ent_fname.delete(0,END)
+        ent_fname.insert(END,select[1])
+        ent_fname.delete(0,END)
+        ent_lname.insert(END,select[2])
+        ent_phon.delete(0,END)
+        ent_phon.insert(END,select[3])
+        ent_adres.delete(0,END)
+        ent_adres.insert(END,select[4])
 
 
 
@@ -76,7 +93,7 @@ ent_adres.place(x=250,y=200)
 ent_srech=Entry(win,font="ariyal 20 bold",width=15)
 ent_srech.place(x=250,y=250)
 
-btn_insert=Button(win,text="insert",font="ariyal 20 bold",width=5)
+btn_insert=Button(win,text="insert",font="ariyal 20 bold",width=5,command=insert)
 btn_insert.place(x=50,y=400)
 
 btn_updata=Button(win,text="updata",font="ariyal 20 bold",width=5)

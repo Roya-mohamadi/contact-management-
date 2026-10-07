@@ -19,4 +19,10 @@ class datbas:
         sql_delete="delete from cantact where id=?"
         self.cur.execute(sql_delete,(id,))
         self.con.commit()
+    def update(self,id,fname,lname,adress,phon):
+        self.cur.execute("self.update cantact set lname=?,fname=?,phon=?,adress=? where id=?",(lname,fname,phon,adress,id))
+        self.con.commit()
+
+    def serech():
+        pass
         
